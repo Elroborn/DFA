@@ -13,7 +13,7 @@ parser.add_argument('--test_file_list', type=str, default='/data/oulu_twostream/
 parser.add_argument('--name', type=str, default='tmp',
                     help='name of the experiment. It decides where to store samples and models')
                     
-parser.add_argument('--model', type=str, default='model2', help='model in albation experiment,model1 model2 model3')
+parser.add_argument('--model', type=str, default='model2', help='model in ablation experiment,model1 model2 model3')
 
 
 parser.add_argument('--gpu_ids', type=str, default='0', help='gpu ids: e.g. 0  0,1,2, 0,2. use -1 for CPU')
