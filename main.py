@@ -1,11 +1,4 @@
-"""
-Created on 19.11.17 12:26
-@File:main.py
-@author: coderwangson
-"""
-"#codeing=utf-8"
 from dataset import AlignedDataset
-# from dataset2 import AlignedDataset
 from torch.utils.data import DataLoader
 from torch import nn
 from model import FaceModel
@@ -30,7 +23,7 @@ writer = SummaryWriter(log_dir=run_dir)
 
 
 if __name__ == '__main__':
-    best_res = 101 #eer or hter
+    best_res = 101
     train_batch_size = opt.batch_size
     test_batch_size = opt.batch_size
     
@@ -42,15 +35,10 @@ if __name__ == '__main__':
                                    shuffle=True, num_workers=8)
     dev_data_loader = DataLoader(AlignedDataset(dev_file_list,isTrain = False), batch_size=test_batch_size,
                                    shuffle=True, num_workers=8)
-    #TODO 注意dataset里面的113行，手动做了一下数据增强
+
     train_dataset = AlignedDataset(train_file_list) 
-    
-    # weights = [2 if data['label'] == 1 else 1 for data in train_dataset] 
-    # sampler = WeightedRandomSampler(weights,num_samples=len(train_dataset),replacement=True)
-    # train_data_loader = DataLoader(train_dataset, batch_size=train_batch_size,
-    #                                sampler=sampler, num_workers=8)
     train_data_loader = DataLoader(train_dataset, batch_size=train_batch_size,
-                                    shuffle = True,num_workers=8) # 如果用的weightRandomSampler则不能有shuffle = True
+                                    shuffle = True,num_workers=8)
 
     writer.iter = 0
     for e in range(opt.epoch):
@@ -76,7 +64,6 @@ if __name__ == '__main__':
                 logging.info(model.get_current_losses())
                 logging.info('HTER {pad_meter.hter:.4f} EER {pad_meter.eer:.4f} ACC {pad_meter.accuracy:.4f}'.format(
                     pad_meter=pad_meter_train))
-                # print(model.get_current_losses())
                 vutils.save_image(ret['fake_B'], "%s/epoch_%d_fake.png" % (img_save_dir, e), normalize=True)
                 vutils.save_image(ret['real_B'], "%s/epoch_%d_real.png" % (img_save_dir, e), normalize=True)
 
